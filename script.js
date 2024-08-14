@@ -43,7 +43,7 @@ const productoAgregar = (list) => {
     productoAgregar(list);
   } else if (agregar <= 0 || agregar > list.length) {
     window.alert(
-      "Se necesita un valor positivo entero dentro de las posivilidades"
+      "Se necesita un valor positivo entero dentro de las posibilidades"
     );
     productoAgregar(list);
   } else {
