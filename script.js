@@ -9,7 +9,6 @@ function Carrito() {
   this.carrito = [];
   this.endBuy = false;
   this.agregar = function (producto, cantidad) {
-    console.log("in");
     let index = this.carrito.findIndex((item) => item.sku == producto);
     console.log(index);
     if (index >= 0) {
