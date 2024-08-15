@@ -10,7 +10,6 @@ function Carrito() {
   this.endBuy = false;
   this.agregar = function (producto, cantidad) {
     let index = this.carrito.findIndex((item) => item.sku == producto);
-    console.log(index);
     if (index >= 0) {
       this.carrito[index].count += cantidad;
     } else {
@@ -39,12 +38,12 @@ const productoAgregar = (list) => {
   let agregar = parseInt(prompt("Ingrese el número de producto a agregar"));
   if (isNaN(agregar)) {
     window.alert("Se necesita un numero");
-    productoAgregar(list);
+    return productoAgregar(list);
   } else if (agregar <= 0 || agregar > list.length) {
     window.alert(
       "Se necesita un valor positivo entero dentro de las posibilidades"
     );
-    productoAgregar(list);
+    return productoAgregar(list);
   } else {
     return agregar;
   }
@@ -53,10 +52,10 @@ const productoCantidad = () => {
   let cantidad = parseInt(prompt("Ingrese la cantidad de Unidades"));
   if (isNaN(cantidad)) {
     window.alert("Se necesita un numero");
-    productoCantidad();
+    return productoCantidad();
   } else if (cantidad <= 0) {
     window.alert("Se necesita un valor positivo entero");
-    productoCantidad();
+    return productoCantidad();
   } else {
     return cantidad;
   }
@@ -67,7 +66,7 @@ const seguirCompra = () => {
     return answer;
   } else {
     window.alert("Respuesta no valida");
-    seguirCompra();
+    return seguirCompra();
   }
 };
 const productList = [
@@ -90,10 +89,10 @@ while (!store.endBuy) {
   window.alert(
     `${cantidad} ${productList[producto - 1].nombre}(s) agregado(s) con exito`
   );
+  window.alert(`${store.show()}`);
   let seguir = seguirCompra();
   if (seguir == "n") {
     store.end();
   }
 }
-window.alert(`${store.show()}`);
 window.alert(`Total de compra $${store.calcular()}`);
