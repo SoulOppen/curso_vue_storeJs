@@ -69,6 +69,42 @@ const seguirCompra = () => {
     return seguirCompra();
   }
 };
+const impStore = (store) => {
+  const $body = document.querySelector("tbody");
+  $body.innerHTML = store.carrito
+    .map((item) => {
+      return `<tr><td>${item.sku.nombre}</td><td>${item.count}</td><td>$${
+        item.sku.precio
+      }</td><td>$${item.count * item.sku.precio}</td></tr>`;
+    })
+    .join("");
+};
+const main = (products) => {
+  const total = document.getElementById("total");
+  const store = new Carrito();
+  while (!store.endBuy) {
+    window.alert(
+      `Productos Disponibles:\n${products
+        .map((item, index) => `${index + 1}.-${item.toString()}`)
+        .join("\n")}`
+    );
+    let producto = productoAgregar(products);
+    let cantidad = productoCantidad();
+    store.agregar(products[producto - 1], cantidad);
+    window.alert(
+      `${cantidad} ${products[producto - 1].nombre}(s) agregado(s) con exito`
+    );
+    window.alert(`${store.show()}`);
+    let seguir = seguirCompra();
+    if (seguir == "n") {
+      store.end();
+    }
+  }
+  window.alert(`Total de compra $${store.calcular()}`);
+  impStore(store);
+  total.innerText = `$${store.calcular()}`;
+};
+const $again = document.getElementById("buyAgain");
 const productList = [
   new Producto("Leche", 1000),
   new Producto("Pan de molde", 2000),
@@ -76,23 +112,6 @@ const productList = [
   new Producto("Mermelada", 890),
   new Producto("Azúcar", 1300),
 ];
-const store = new Carrito();
-while (!store.endBuy) {
-  window.alert(
-    `Productos Disponibles:\n${productList
-      .map((item, index) => `${index + 1}.-${item.toString()}`)
-      .join("\n")}`
-  );
-  let producto = productoAgregar(productList);
-  let cantidad = productoCantidad();
-  store.agregar(productList[producto - 1], cantidad);
-  window.alert(
-    `${cantidad} ${productList[producto - 1].nombre}(s) agregado(s) con exito`
-  );
-  window.alert(`${store.show()}`);
-  let seguir = seguirCompra();
-  if (seguir == "n") {
-    store.end();
-  }
-}
-window.alert(`Total de compra $${store.calcular()}`);
+
+document.addEventListener("DOMContentLoaded", main(productList));
+$again.addEventListener("click", () => main(productList));
